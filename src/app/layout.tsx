@@ -1,3 +1,4 @@
+import { Header } from "@/components/Header";
 import { Providers } from "./providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          <div className="mx-auto max-w-screen-lg py-4">{children}</div>
+        </Providers>
       </body>
     </html>
   );

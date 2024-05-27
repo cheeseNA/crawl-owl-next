@@ -1,10 +1,9 @@
-import { Button } from "@nextui-org/react";
-
+import { TaskTable } from "@/components/TaskTable";
 export default function Home() {
   return (
     <main>
       <div>
-        <Button>Click me</Button>
+        <TaskTable />
       </div>
     </main>
   );
