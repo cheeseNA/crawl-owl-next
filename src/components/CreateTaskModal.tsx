@@ -15,7 +15,11 @@ import {
 } from "@nextui-org/react";
 import type { components } from "@/lib/schema";
 import { FormEvent } from "react";
+import client from "@/lib/api";
+import React from "react";
+
 // TODO: validation ref: https://github.com/nextui-org/nextui/issues/1969#issuecomment-1815785527
+
 export const CreateTaskModal = ({
   isOpen,
   onOpenChange,
@@ -29,16 +33,24 @@ export const CreateTaskModal = ({
     formState: { errors },
   } = useForm<components["schemas"]["TaskRequest"]>();
 
-  const onSubmit: SubmitHandler<components["schemas"]["TaskRequest"]> = (
-    data
-  ) => {
+  const [success, setSuccess] = React.useState(false);
+
+  const onSubmit = async (data: components["schemas"]["TaskRequest"]) => {
     data.duration_day = Number(data.duration_day); // TODO: use better approach, error handling
     console.log(data);
+    try {
+      await client.POST("/tasks", { body: data });
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+    setSuccess(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setSuccess(false);
   };
 
   const onCreate = async (e: FormEvent) => {
-    handleSubmit(onSubmit)(e);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await handleSubmit(onSubmit)(e);
     onOpenChange();
   };
 
@@ -98,6 +110,11 @@ export const CreateTaskModal = ({
                   Public
                 </Checkbox>
               </div>
+              {success && (
+                <div className="bg-success-100 text-success rounded-medium p-2">
+                  Task Created Successfully.
+                </div>
+              )}
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onPress={onClose}>
