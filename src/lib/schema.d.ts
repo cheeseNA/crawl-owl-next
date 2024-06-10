@@ -75,6 +75,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/cron-wrpouiqjflsadkmxcvz780923": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Execute crawl
+         * @description Execute crawl
+         */
+        post: operations["post-cron-wrpouiqjflsadkmxcvz780923"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -99,6 +119,9 @@ export interface components {
             readonly created_by: string;
             /** Format: date-time */
             readonly updated_at: string;
+            /** Format: date-time */
+            readonly last_crawled_at?: string;
+            readonly is_paused: boolean;
         };
     };
     responses: never;
@@ -203,6 +226,24 @@ export interface operations {
         };
     };
     healthz: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "post-cron-wrpouiqjflsadkmxcvz780923": {
         parameters: {
             query?: never;
             header?: never;
