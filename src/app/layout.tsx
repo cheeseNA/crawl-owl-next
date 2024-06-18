@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Header />
-          <div className="mx-auto max-w-screen-lg py-4">{children}</div>
+          <div className="mx-auto max-w-[976px] py-4">{children}</div>
         </Providers>
       </body>
     </html>

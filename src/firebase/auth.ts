@@ -15,13 +15,6 @@ export async function signInWithGoogle() {
   try {
     const credential = await signInWithPopup(auth, provider);
     const idTokenResult = await credential.user.getIdTokenResult();
-    await fetch("/api/login", {
-      // TODO: update this to use go backend
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${idTokenResult.token}`,
-      },
-    });
     window.location.reload();
   } catch (error) {
     console.error("Error signing in with Google", error);
@@ -31,9 +24,6 @@ export async function signInWithGoogle() {
 export async function signOut() {
   try {
     await auth.signOut();
-    await fetch("/api/logout", {
-      method: "GET",
-    });
     window.location.reload();
   } catch (error) {
     console.error("Error signing out with Google", error);
