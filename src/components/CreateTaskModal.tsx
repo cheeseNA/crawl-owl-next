@@ -52,6 +52,7 @@ export const CreateTaskModal = ({
   const onCreate = async (e: FormEvent) => {
     await handleSubmit(onSubmit)(e);
     onOpenChange();
+    window.location.reload();
   };
 
   return (
@@ -63,17 +64,6 @@ export const CreateTaskModal = ({
               Create Task
             </ModalHeader>
             <ModalBody>
-              {/* <Input
-                autoFocus
-                // endContent={
-                //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                // }
-                label="Email"
-                placeholder="Enter your email"
-                description="We'll never share your email with anyone else."
-                variant="bordered"
-                isRequired
-              /> */}
               <Input
                 label="Site URL"
                 type="url"
