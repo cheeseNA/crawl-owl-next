@@ -18,6 +18,7 @@ export async function signInWithGoogle() {
     window.location.reload();
   } catch (error) {
     console.error("Error signing in with Google", error);
+    throw error;
   }
 }
 
@@ -27,5 +28,6 @@ export async function signOut() {
     window.location.reload();
   } catch (error) {
     console.error("Error signing out with Google", error);
+    throw error;
   }
 }
