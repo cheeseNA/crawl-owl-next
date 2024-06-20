@@ -18,6 +18,7 @@ import { TrashIcon } from "@/heroicons/trash";
 import { PauseIcon } from "@/heroicons/pause";
 import { FilledPauseIcon } from "@/heroicons/filledpause";
 import { useGetTasks } from "@/hooks/queries";
+import client from "@/lib/api";
 
 const columns = [
   { name: "TARGET SITE", uid: "site_url" },
@@ -33,6 +34,18 @@ type TaskResponse = components["schemas"]["TaskResponse"];
 
 export const TaskTable = () => {
   const tasks = useGetTasks({});
+
+  const onTrashClick = async (id: string) => {
+    try {
+      await client.DELETE("/tasks/{taskId}", {
+        params: { path: { taskId: id } },
+      });
+      tasks.refetch();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
 
   const renderCell = (columnKey: string, task: TaskResponse) => {
     const cellValue = task[columnKey as keyof typeof task];
@@ -65,7 +78,9 @@ export const TaskTable = () => {
             </Tooltip>
             <Tooltip color="danger" content="Delete task">
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <TrashIcon />
+                <button onClick={() => onTrashClick(task.id)}>
+                  <TrashIcon />
+                </button>
               </span>
             </Tooltip>
           </div>
