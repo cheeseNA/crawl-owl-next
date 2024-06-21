@@ -48,7 +48,11 @@ export const Header = () => {
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="flat">
-                <DropdownItem key="profile" className="h-14 gap-2">
+                <DropdownItem
+                  key="profile"
+                  className="h-14 gap-2"
+                  textValue="user name"
+                >
                   <p>Signed in as</p>
                   <p className="font-semibold">{user.displayName!}</p>
                 </DropdownItem>
