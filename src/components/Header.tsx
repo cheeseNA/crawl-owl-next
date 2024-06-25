@@ -15,6 +15,7 @@ import {
 import { PressEvent } from "@react-types/shared";
 import { signInWithGoogle, signOut } from "@/firebase/auth";
 import { useUser } from "@/hooks/useUser";
+import Link from "next/link";
 
 export const Header = () => {
   const user = useUser();
@@ -55,6 +56,9 @@ export const Header = () => {
                 >
                   <p>Signed in as</p>
                   <p className="font-semibold">{user.displayName!}</p>
+                </DropdownItem>
+                <DropdownItem key="mypage" color="default">
+                  <Link href="/mypage">My Page</Link>
                 </DropdownItem>
                 <DropdownItem
                   key="logout"
