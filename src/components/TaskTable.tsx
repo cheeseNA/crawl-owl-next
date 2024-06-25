@@ -17,8 +17,6 @@ import {
 import { TrashIcon } from "@/heroicons/trash";
 import { PauseIcon } from "@/heroicons/pause";
 import { FilledPauseIcon } from "@/heroicons/filledpause";
-import { useGetTasks } from "@/hooks/queries";
-import client from "@/lib/api";
 
 const columns = [
   { name: "TARGET SITE", uid: "site_url" },
@@ -30,23 +28,16 @@ const columns = [
 ];
 
 import type { components } from "@/lib/schema";
+import { UseQueryResult } from "@tanstack/react-query";
 type TaskResponse = components["schemas"]["TaskResponse"];
 
-export const TaskTable = () => {
-  const tasks = useGetTasks({});
-
-  const onTrashClick = async (id: string) => {
-    try {
-      await client.DELETE("/tasks/{taskId}", {
-        params: { path: { taskId: id } },
-      });
-      tasks.refetch();
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-
+export const TaskTable = ({
+  tasks,
+  onTrashClick,
+}: {
+  tasks: UseQueryResult<TaskResponse[] | undefined, Error>;
+  onTrashClick: (id: string) => Promise<void>;
+}) => {
   const renderCell = (columnKey: string, task: TaskResponse) => {
     const cellValue = task[columnKey as keyof typeof task];
     switch (columnKey) {

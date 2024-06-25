@@ -3,9 +3,24 @@
 import { Button, useDisclosure } from "@nextui-org/react";
 import { TaskTable } from "@/components/TaskTable";
 import { CreateTaskModal } from "@/components/CreateTaskModal";
+import { useGetTasks } from "@/hooks/queries";
+import client from "@/lib/api";
 
 export default function Home() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const tasks = useGetTasks({});
+
+  const onTrashClick = async (id: string) => {
+    try {
+      await client.DELETE("/tasks/{taskId}", {
+        params: { path: { taskId: id } },
+      });
+      tasks.refetch();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
 
   return (
     <main>
@@ -16,7 +31,7 @@ export default function Home() {
             Create
           </Button>
         </div>
-        <TaskTable />
+        <TaskTable tasks={tasks} onTrashClick={onTrashClick} />
         <CreateTaskModal isOpen={isOpen} onOpenChange={onOpenChange} />
       </div>
     </main>
