@@ -37,3 +37,28 @@ export function useGetTasks({
     },
   });
 }
+
+const GET_TASKS_OF_USER = "/users/{userId}/tasks";
+
+export function useGetTasksOfUser({
+  params,
+  body,
+  reactQuery,
+}: UseQueryOptions<paths[typeof GET_TASKS_OF_USER]["get"]>) {
+  return useQuery({
+    ...reactQuery,
+    queryKey: [
+      GET_TASKS_OF_USER,
+      // add any other hook dependencies here
+    ],
+    queryFn: async ({ signal }) => {
+      const { data } = await client.GET(GET_TASKS_OF_USER, {
+        params,
+        // body - isn’t used for GET, but needed for other request types
+        signal, // allows React Query to cancel request
+      });
+      return data;
+      // Note: Error throwing handled automatically via middleware
+    },
+  });
+}
