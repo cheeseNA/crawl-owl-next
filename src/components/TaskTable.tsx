@@ -17,6 +17,9 @@ import {
 import { TrashIcon } from "@/heroicons/trash";
 import { PauseIcon } from "@/heroicons/pause";
 import { FilledPauseIcon } from "@/heroicons/filledpause";
+import type { components } from "@/lib/schema";
+import { UseQueryResult } from "@tanstack/react-query";
+type TaskResponse = components["schemas"]["TaskResponse"];
 
 const columns = [
   { name: "TARGET SITE", uid: "site_url" },
@@ -26,10 +29,6 @@ const columns = [
   { name: "LAST CHECK", uid: "last_crawled_at" }, // TODO: use last check date
   { name: "ACTIONS", uid: "actions" },
 ];
-
-import type { components } from "@/lib/schema";
-import { UseQueryResult } from "@tanstack/react-query";
-type TaskResponse = components["schemas"]["TaskResponse"];
 
 export const TaskTable = ({
   tasks,
@@ -81,7 +80,7 @@ export const TaskTable = ({
     }
   };
 
-  if (tasks.isLoading) {
+  if (tasks.isPending) {
     return (
       <Table aria-label="Task table">
         <TableHeader columns={columns}>
